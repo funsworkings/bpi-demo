@@ -54,6 +54,28 @@
         }
 
       ]
+    },
+
+    {
+      "Title" : "Test2",
+      "Images" : [
+
+        {
+          "ImagePath" : "Images/frog0.jpeg",
+          "Caption" : "Frog0"
+        },
+
+        {
+          "ImagePath" : "Images/frog1.jpeg",
+          "Caption" : "Frog1"
+        },
+
+        {
+          "ImagePath" : "Images/frog2.jpeg",
+          "Caption" : "Frog2"
+        }
+
+      ]
     }
     
   ]
