@@ -1080,6 +1080,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 0bef742cae54f4502aed549b0aba58d0, type: 3}
+    - target: {fileID: 8259617747505472058, guid: 81133cc04ce83496f84ceda34e1103b1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8259617747505472058, guid: 81133cc04ce83496f84ceda34e1103b1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8259617747505472058, guid: 81133cc04ce83496f84ceda34e1103b1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8259617747505472058, guid: 81133cc04ce83496f84ceda34e1103b1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9203417618674916254, guid: 81133cc04ce83496f84ceda34e1103b1, type: 3}
       propertyPath: m_Type
       value: 0

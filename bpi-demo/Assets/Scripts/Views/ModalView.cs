@@ -21,12 +21,15 @@ namespace Views
         private float _inactiveT = 0f;
         private float TimeToDismiss = float.MaxValue;
 
+        private float _contentWidth;
+        private Sequence _contentAnimateSequence;
+
         [Header("UI")] 
         [SerializeField] private RectTransform _contentTransform;
         [SerializeField] private TMP_Text _contentTitleText;
         [SerializeField] private TMP_Text _imageCaptionText;
-        [SerializeField] private RawImage _contentImage, _transitionImage;
-        [SerializeField] private AspectRatioFitter _contentImageFitter;
+        [SerializeField] private RawImage _contentImage, _cacheImage;
+        [SerializeField] private AspectRatioFitter _contentImageFitter, _cacheImageFitter;
         [SerializeField] private Button _previousNavButton, _nextNavButton, _closeButton;
         
         
@@ -69,6 +72,8 @@ namespace Views
         protected override void OnVisible()
         {
             _inactiveT = 0f; // Reset timer for inactivity
+
+            _contentWidth = _contentTransform.rect.width;
             
             _contentTransform.localScale = Vector3.zero;
             _contentTransform.DOScale(1f, .67f).SetEase(Ease.OutBack);
@@ -99,26 +104,57 @@ namespace Views
 
         #region Images
 
-        void GoToPreviousImage() => GoToImageIndex(_contentItemIndex - 1);
-        void GoToNextImage() => GoToImageIndex(_contentItemIndex + 1);
+        void GoToPreviousImage() => GoToImageIndex(_contentItemIndex - 1, -1);
+        void GoToNextImage() => GoToImageIndex(_contentItemIndex + 1, 1);
 
-        void GoToImageIndex(int index)
+        void GoToImageIndex(int index, int direction = 0)
         {
+            if (_contentAnimateSequence != null) return;  // Ignore request to jump to new item if still animating
             index = (int)Mathf.Repeat(index, _content.Images.Length); // Safe wrap index value within acceptable range
 
             int cacheItemIndex = _contentItemIndex;
             _contentItemIndex = index;
-            
-            OnUpdateImageIndex(cacheItemIndex != _contentItemIndex);
+
+            if (cacheItemIndex == _contentItemIndex) cacheItemIndex = -1;
+            OnUpdateImageIndex(direction, cacheItemIndex);
         }
 
-        void OnUpdateImageIndex(bool animate)
+        void OnUpdateImageIndex(int direction, int cacheItemIndex = -1)
         {
             var content = _content.Images[_contentItemIndex];
-            var image = TextureLoader.Instance.LoadTextureFromStreamingPath(content.ImagePath);
-                _contentImage.texture = image;
-                _contentImageFitter.aspectRatio = 1f * image.width / image.height;
                 _imageCaptionText.text = content.Caption;
+            var image = TextureLoader.Instance.LoadTextureFromStreamingPath(content.ImagePath);
+                UpdateImageContent(image, _contentImage, _contentImageFitter);
+
+            if (cacheItemIndex >= 0) // Has valid cached index to animate from
+            {
+                _cacheImage.gameObject.SetActive(true);
+                
+                var cacheImage =
+                    TextureLoader.Instance.LoadTextureFromStreamingPath(_content.Images[cacheItemIndex].ImagePath);
+                UpdateImageContent(cacheImage, _cacheImage, _cacheImageFitter);
+
+                _contentImage.transform.localPosition = new Vector3(_contentWidth * direction, 0f, 0f); // Offset content transform
+                _cacheImage.transform.localPosition = Vector3.zero;
+
+                _contentAnimateSequence = DOTween.Sequence();
+                _contentAnimateSequence.Append(_contentImage.transform.DOLocalMoveX(0f, .33f).SetEase(Ease.OutBack)).OnComplete(
+                    () =>
+                    {
+                        _cacheImage.gameObject.SetActive(false); // Hide cached image
+                        _contentAnimateSequence = null;
+                    });
+            }
+            else
+            {
+                _cacheImage.gameObject.SetActive(false);
+            }
+        }
+
+        void UpdateImageContent(Texture2D image, RawImage tImage, AspectRatioFitter tFitter)
+        {
+            tImage.texture = image;
+            tFitter.aspectRatio = 1f * image.width / image.height;
         }
         
         #endregion
