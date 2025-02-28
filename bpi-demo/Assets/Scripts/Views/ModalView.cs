@@ -138,12 +138,16 @@ namespace Views
                 _cacheImage.transform.localPosition = Vector3.zero;
 
                 _contentAnimateSequence = DOTween.Sequence();
-                _contentAnimateSequence.Append(_contentImage.transform.DOLocalMoveX(0f, .33f).SetEase(Ease.OutBack)).OnComplete(
+                _contentAnimateSequence
+                    .Append(_contentImage.transform.DOLocalMoveX(0f, .33f).SetEase(Ease.Linear))
+                    .OnComplete(
                     () =>
                     {
                         _cacheImage.gameObject.SetActive(false); // Hide cached image
                         _contentAnimateSequence = null;
                     });
+                
+                _cacheImage.transform.DOLocalMoveX(_contentWidth * -direction, .33f).SetEase(Ease.Linear);
             }
             else
             {
