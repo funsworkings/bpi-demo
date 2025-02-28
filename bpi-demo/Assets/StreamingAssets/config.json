@@ -4,75 +4,75 @@
   
   "SlideshowImages" : [
     
-    "Images/frog0.jpeg",
-    "Images/frog1.jpeg",
-    "Images/frog2.jpeg"
+    "Images/Slideshow/bandage-self-portrait.jpg",
+    "Images/Slideshow/les-vessenots.jpg",
+    "Images/Slideshow/starry-night.jpg"
     
   ],
   
   "Contents" : [
 
     {
-      "Title" : "Test0",
+      "Title" : "Emerging Artist",
       "Images" : [
 
         { 
-          "ImagePath" : "Images/frog0.jpeg",
-          "Caption" : "Frog0"
+          "ImagePath" : "Images/1/peasant-woman-digging.jpg",
+          "Caption" : "\"Peasant Woman Digging\", 1885"
         },
 
         {
-          "ImagePath" : "Images/frog1.jpeg",
-          "Caption" : "Frog1"
+          "ImagePath" : "Images/1/skull-cigarette.jpg",
+          "Caption" : "\"Skull of a Skeleton with Burning Cigarette\", 1885-1886"
         },
 
         {
-          "ImagePath" : "Images/frog2.jpeg",
-          "Caption" : "Frog2"
+          "ImagePath" : "Images/1/still-life-open-bible.jpg",
+          "Caption" : "\"Still Life with Bible\", 1885"
         }
         
       ]
     },
 
     {
-      "Title" : "Test1",
+      "Title" : "Breakthrough",
       "Images" : [
 
         {
-          "ImagePath" : "Images/frog0.jpeg",
-          "Caption" : "Frog0"
+          "ImagePath" : "Images/2/arles-bedroom.jpg",
+          "Caption" : "\"Bedroom in Arles\", 1888"
         },
 
         {
-          "ImagePath" : "Images/frog1.jpeg",
-          "Caption" : "Frog1"
+          "ImagePath" : "Images/2/old-mill.jpg",
+          "Caption" : "\"The Old Mill\", 1888"
         },
 
         {
-          "ImagePath" : "Images/frog2.jpeg",
-          "Caption" : "Frog2"
+          "ImagePath" : "Images/2/sower-setting-sun.jpg",
+          "Caption" : "\"The Sower with Setting Sun\", 1888"
         }
 
       ]
     },
 
     {
-      "Title" : "Test2",
+      "Title" : "Later Years",
       "Images" : [
 
         {
-          "ImagePath" : "Images/frog0.jpeg",
-          "Caption" : "Frog0"
+          "ImagePath" : "Images/3/night-cafe.jpeg",
+          "Caption" : "\"The Night Cafe\", 1888"
         },
 
         {
-          "ImagePath" : "Images/frog1.jpeg",
-          "Caption" : "Frog1"
+          "ImagePath" : "Images/3/red-vineyard.jpg",
+          "Caption" : "\"The Red Vineyard\", 1888"
         },
 
         {
-          "ImagePath" : "Images/frog2.jpeg",
-          "Caption" : "Frog2"
+          "ImagePath" : "Images/3/van-gogh-chair.jpg",
+          "Caption" : "\"Van Gogh's Chair\", 1888"
         }
 
       ]
