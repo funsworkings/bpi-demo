@@ -1,0 +1,60 @@
+{
+  "TimeToDismissApp" : 60.0,
+  "TimeToDismissModal" : 30.0,
+  
+  "SlideshowImages" : [
+    
+    "Images/frog0.jpeg",
+    "Images/frog1.jpeg",
+    "Images/frog2.jpeg"
+    
+  ],
+  
+  "Contents" : [
+
+    {
+      "Title" : "Test0",
+      "Images" : [
+
+        { 
+          "ImagePath" : "Images/frog0.jpeg",
+          "Caption" : "Frog0"
+        },
+
+        {
+          "ImagePath" : "Images/frog1.jpeg",
+          "Caption" : "Frog1"
+        },
+
+        {
+          "ImagePath" : "Images/frog2.jpeg",
+          "Caption" : "Frog2"
+        }
+        
+      ]
+    },
+
+    {
+      "Title" : "Test1",
+      "Images" : [
+
+        {
+          "ImagePath" : "Images/frog0.jpeg",
+          "Caption" : "Frog0"
+        },
+
+        {
+          "ImagePath" : "Images/frog1.jpeg",
+          "Caption" : "Frog1"
+        },
+
+        {
+          "ImagePath" : "Images/frog2.jpeg",
+          "Caption" : "Frog2"
+        }
+
+      ]
+    }
+    
+  ]
+}

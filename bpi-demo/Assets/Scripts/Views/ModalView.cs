@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using Abstract;
-using Scriptables;
+using Data;
+using DG.Tweening;
+using Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +14,7 @@ namespace Views
     {
         // Properties
 
-        private ModalContent _content;
+        private ConfigFile.ContentBlock _content;
 
         private int _contentItemIndex = -1;
 
@@ -20,9 +22,10 @@ namespace Views
         private float TimeToDismiss = float.MaxValue;
 
         [Header("UI")] 
+        [SerializeField] private RectTransform _contentTransform;
         [SerializeField] private TMP_Text _contentTitleText;
         [SerializeField] private TMP_Text _imageCaptionText;
-        [SerializeField] private Image _contentImage;
+        [SerializeField] private RawImage _contentImage, _transitionImage;
         [SerializeField] private AspectRatioFitter _contentImageFitter;
         [SerializeField] private Button _previousNavButton, _nextNavButton, _closeButton;
         
@@ -66,17 +69,27 @@ namespace Views
         protected override void OnVisible()
         {
             _inactiveT = 0f; // Reset timer for inactivity
+            
+            _contentTransform.localScale = Vector3.zero;
+            _contentTransform.DOScale(1f, .67f).SetEase(Ease.OutBack);
+        }
+
+        protected override void OnHidden()
+        {
+            _contentTransform.DOScale(0f, .167f).SetEase(Ease.InExpo);
         }
 
         #endregion
         
         #region Ops
 
-        public void OpenWithContent(ModalContent content)
+        public void OpenWithContent(ConfigFile.ContentBlock content)
         {
             _content = content;
             
             _contentTitleText.text = content.Title;
+
+            _contentItemIndex = 0;
             GoToImageIndex(0);
             
             Show();
@@ -91,19 +104,20 @@ namespace Views
 
         void GoToImageIndex(int index)
         {
-            index = (int)Mathf.Repeat(index, _content.Data.Length); // Safe wrap index value within acceptable range
+            index = (int)Mathf.Repeat(index, _content.Images.Length); // Safe wrap index value within acceptable range
+
+            int cacheItemIndex = _contentItemIndex;
             _contentItemIndex = index;
             
-            OnUpdateImageIndex();
+            OnUpdateImageIndex(cacheItemIndex != _contentItemIndex);
         }
 
-        void OnUpdateImageIndex()
+        void OnUpdateImageIndex(bool animate)
         {
-            var content = _content.Data[_contentItemIndex];
-            var image = content.Image;
-                _contentImage.sprite = image;
-            var imageSize = image.bounds.size;
-                _contentImageFitter.aspectRatio = 1f * imageSize.x / imageSize.y;
+            var content = _content.Images[_contentItemIndex];
+            var image = TextureLoader.Instance.LoadTextureFromStreamingPath(content.ImagePath);
+                _contentImage.texture = image;
+                _contentImageFitter.aspectRatio = 1f * image.width / image.height;
                 _imageCaptionText.text = content.Caption;
         }
         

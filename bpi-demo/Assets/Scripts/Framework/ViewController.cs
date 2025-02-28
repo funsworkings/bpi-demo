@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Abstract;
+using Data;
 using Elements;
 using UnityEngine;
 using Views;
@@ -10,8 +12,11 @@ namespace Framework
 {
     public class ViewController : MonoBehaviour
     {
-        
         // Dependencies
+        
+        [SerializeField] private ConfigLoader _configLoader;
+        
+        private ConfigFile _config;
 
         public LandingView LandingView => Get<LandingView>();
         public ContentView ContentView => Get<ContentView>();
@@ -22,13 +27,31 @@ namespace Framework
         [SerializeField] private View[] _views;
         private Dictionary<Type, View> _viewLookup = new Dictionary<Type, View>();
 
-        private const float TIME_TO_DISMISS_APP = 60f;
-        private const float TIME_TO_DISMISS_MODAL = 30f;
-
         // Initialisation
         private IEnumerator Start()
         {
             yield return new WaitForEndOfFrame(); // Slight frame delay
+
+            yield return _configLoader.Load((config) =>
+            {
+                _config = config;
+                Debug.LogWarning("Success load config! :)");
+
+                var contents = _config.Contents;
+                foreach (var content in contents)
+                {
+                    var images = content.Images;
+                    foreach (var img in images)
+                    {
+                        TextureLoader.Instance.LoadTextureFromStreamingPath(img.ImagePath);
+                    }
+                }
+
+            }, (err) =>
+            {
+                Debug.LogWarning($"Load config with errors: {err.Message}, fallback to default config");
+                _config = default(ConfigFile);
+            });
 
             // Populate views registry
             if (_views != null && _views.Length > 0)
@@ -44,9 +67,11 @@ namespace Framework
                 }
             }
 
-            yield return LandingView.Setup(this, null);
-            yield return ContentView.Setup(this, TIME_TO_DISMISS_APP);
-            yield return ModalView.Setup(this, TIME_TO_DISMISS_MODAL);
+            yield return LandingView.Setup(this, _config.SlideshowImages);
+            yield return ContentView.Setup(this, _config.TimeToDismissApp, _config.Contents[0], _config.Contents[1]);
+            yield return ModalView.Setup(this, _config.TimeToDismissModal);
+            
+            LandingView.Show(); // Default show landing view first
             
             ModalButtonOption.OnSelectOption += OnSelectContentOption;
         }
