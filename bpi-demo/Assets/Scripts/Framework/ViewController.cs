@@ -68,7 +68,7 @@ namespace Framework
             }
 
             yield return LandingView.Setup(this, _config.SlideshowImages);
-            yield return ContentView.Setup(this, _config.TimeToDismissApp, _config.Contents[0], _config.Contents[1]);
+            yield return ContentView.Setup(this, _config.TimeToDismissApp, new ContentView.ContentData(){ Contents = _config.Contents });
             yield return ModalView.Setup(this, _config.TimeToDismissModal);
             
             LandingView.Show(); // Default show landing view first
