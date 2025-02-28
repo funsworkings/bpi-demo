@@ -17,6 +17,7 @@ namespace Views
 
         [SerializeField] private RectTransform _callToActionTransform;
         [SerializeField] private RawImage _imageA, _imageB;
+        [SerializeField] private AspectRatioFitter _fitterA, _fitterB;
         [SerializeField] private CanvasGroup _canvasGroupA, _canvasGroupB;
 
         [SerializeField] private Texture2D[] _options;
@@ -65,6 +66,7 @@ namespace Views
         {
             _optionIndex = 0;
             _imageA.texture = _options[_optionIndex];
+            _fitterA.aspectRatio = 1f * _imageA.texture.width / _imageA.texture.height;
             _canvasGroupA.alpha = 1f;
             _canvasGroupB.alpha = 0f;
 
@@ -92,8 +94,10 @@ namespace Views
                     
                     _imageA.texture = _options[aIndex];
                     _canvasGroupA.alpha = 1f;
+                    _fitterA.aspectRatio = 1f * _imageA.texture.width / _imageA.texture.height;
                     _imageB.texture = _options[bIndex];
                     _canvasGroupB.alpha = 0f;
+                    _fitterB.aspectRatio = 1f * _imageB.texture.width / _imageB.texture.height;
 
                     yield return _canvasGroupB.DOFade(1f, _transitionDuration);
 
