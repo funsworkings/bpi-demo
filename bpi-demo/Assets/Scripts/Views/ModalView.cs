@@ -23,6 +23,7 @@ namespace Views
         [SerializeField] private TMP_Text _contentTitleText;
         [SerializeField] private TMP_Text _imageCaptionText;
         [SerializeField] private Image _contentImage;
+        [SerializeField] private AspectRatioFitter _contentImageFitter;
         [SerializeField] private Button _previousNavButton, _nextNavButton, _closeButton;
         
         
@@ -99,7 +100,10 @@ namespace Views
         void OnUpdateImageIndex()
         {
             var content = _content.Data[_contentItemIndex];
-                _contentImage.sprite = content.Image;
+            var image = content.Image;
+                _contentImage.sprite = image;
+            var imageSize = image.bounds.size;
+                _contentImageFitter.aspectRatio = 1f * imageSize.x / imageSize.y;
                 _imageCaptionText.text = content.Caption;
         }
         

@@ -453,6 +453,7 @@ MonoBehaviour:
   _contentTitleText: {fileID: 268383294002173051}
   _imageCaptionText: {fileID: 8925065800689358989}
   _contentImage: {fileID: 7965953796649610822}
+  _contentImageFitter: {fileID: 6600443016192259620}
   _previousNavButton: {fileID: 3971918439863007210}
   _nextNavButton: {fileID: 7040249102235759109}
   _closeButton: {fileID: 9003002706995723140}
